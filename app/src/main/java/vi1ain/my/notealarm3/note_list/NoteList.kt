@@ -16,6 +16,7 @@ import vi1ain.my.notealarm3.R
 import vi1ain.my.notealarm3.data.NoteViewModel
 import vi1ain.my.notealarm3.data.Str
 import vi1ain.my.notealarm3.date_time_picker.DialogDatePicker
+import vi1ain.my.notealarm3.date_time_picker.DialogTimePicker
 import vi1ain.my.notealarm3.dialog_manager.DialogController
 import vi1ain.my.notealarm3.ui.theme.xDarkGreen
 import vi1ain.my.notealarm3.ui.theme.xLightGreen
@@ -33,8 +34,16 @@ fun NoteList(noteViewModel: NoteViewModel = viewModel()) {
     )
     if (noteViewModel.openDialogDatePicker) DialogDatePicker(
         onDismissRequest = { noteViewModel.openDialogDatePicker = false },
-        confirmButton = { noteViewModel.openDialogDatePicker = false },
+        confirmButton = { noteViewModel.openDialogDatePicker = false
+            noteViewModel.openDialogTimePicker = true
+                        },
         dismissButton = { noteViewModel.openDialogDatePicker = false },
+        noteViewModel = noteViewModel
+    )
+    if (noteViewModel.openDialogTimePicker) DialogTimePicker(
+        onDismissRequest = { noteViewModel.openDialogTimePicker = false },
+        confirmButton = { noteViewModel.openDialogTimePicker = false },
+        dismissButton = { noteViewModel.openDialogTimePicker = false },
         noteViewModel = noteViewModel
     )
 
