@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import vi1ain.my.notealarm3.R
 import vi1ain.my.notealarm3.data.NoteViewModel
 import vi1ain.my.notealarm3.data.Str
+import vi1ain.my.notealarm3.dialog_manager.DialogController
 import vi1ain.my.notealarm3.ui.theme.xDarkGreen
 import vi1ain.my.notealarm3.ui.theme.xLightGreen
 
@@ -23,11 +24,18 @@ import vi1ain.my.notealarm3.ui.theme.xLightGreen
 fun NoteList(noteViewModel: NoteViewModel = viewModel()) {
     val noteList = noteViewModel.noteList.collectAsState(initial = emptyList())
 
+    if (noteViewModel.dialogState) DialogController(
+        onDismissRequest = { noteViewModel.dialogState = false },
+        confirmButton = { noteViewModel.dialogState = false },
+        dismissButton = { noteViewModel.dialogState = false },
+        noteViewModel = noteViewModel
+    )
+    
     Scaffold(floatingActionButton = {
         ExtendedFloatingActionButton(
             containerColor = xLightGreen,
             onClick = {
-                // noteViewModel.dialogState = true
+                 noteViewModel.dialogState = true
                 //noteViewModel.titleState = ""
             }) {
             Icon(/*modifier = Modifier
@@ -41,6 +49,6 @@ fun NoteList(noteViewModel: NoteViewModel = viewModel()) {
             Text(color = xDarkGreen, text = Str.ADD)
         }
     }) {
-LazyColumn(content = {items(50){itemNote-> NoteCard(itemNote =itemNote)} },contentPadding = PaddingValues(bottom = 80.dp))
+LazyColumn(content = {items(50){itemNote-> NoteCard()} },contentPadding = PaddingValues(bottom = 80.dp))
     }
 }

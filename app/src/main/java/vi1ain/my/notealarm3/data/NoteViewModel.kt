@@ -14,7 +14,7 @@ import javax.inject.Inject
 class NoteViewModel @Inject constructor(private val repository: NoteRepository) : ViewModel() {
 val noteList = repository.getAllNotes()
     var newNoteItem: NoteEntity? = null
-
+var dialogState by mutableStateOf(false)
     var titleState by mutableStateOf("")
     var descriptionState by mutableStateOf("")
 
