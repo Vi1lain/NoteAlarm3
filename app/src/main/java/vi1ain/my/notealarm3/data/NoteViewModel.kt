@@ -2,6 +2,8 @@ package vi1ain.my.notealarm3.data
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -17,6 +19,22 @@ val noteList = repository.getAllNotes()
 var dialogState by mutableStateOf(false)
     var titleState by mutableStateOf("")
     var descriptionState by mutableStateOf("")
+
+  //DATE_PICKER states
+    var selectedYear by
+    mutableIntStateOf(0) // or use  mutableStateOf(0)
+    var selectedMonth by
+    mutableIntStateOf(0) // or use  mutableStateOf(0)
+    var selectedDay by
+    mutableIntStateOf(0) // or use  mutableStateOf(0)
+    var openDialogDatePicker by mutableStateOf(false)
+
+    //TIME_PICKER states
+    var selectedHour by
+    mutableIntStateOf(0) // or use  mutableStateOf(0)
+    var selectedMinute by
+    mutableIntStateOf(0) // or use  mutableStateOf(0)
+    var openDialogTimePicker by mutableStateOf(false)
 
     fun insertNotes() = viewModelScope.launch {
         if (titleState.isNotEmpty()) {

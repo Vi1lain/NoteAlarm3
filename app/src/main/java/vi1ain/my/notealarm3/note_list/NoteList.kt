@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import vi1ain.my.notealarm3.R
 import vi1ain.my.notealarm3.data.NoteViewModel
 import vi1ain.my.notealarm3.data.Str
+import vi1ain.my.notealarm3.date_time_picker.DialogDatePicker
 import vi1ain.my.notealarm3.dialog_manager.DialogController
 import vi1ain.my.notealarm3.ui.theme.xDarkGreen
 import vi1ain.my.notealarm3.ui.theme.xLightGreen
@@ -30,12 +31,18 @@ fun NoteList(noteViewModel: NoteViewModel = viewModel()) {
         dismissButton = { noteViewModel.dialogState = false },
         noteViewModel = noteViewModel
     )
-    
+    if (noteViewModel.openDialogDatePicker) DialogDatePicker(
+        onDismissRequest = { noteViewModel.openDialogDatePicker = false },
+        confirmButton = { noteViewModel.openDialogDatePicker = false },
+        dismissButton = { noteViewModel.openDialogDatePicker = false },
+        noteViewModel = noteViewModel
+    )
+
     Scaffold(floatingActionButton = {
         ExtendedFloatingActionButton(
             containerColor = xLightGreen,
             onClick = {
-                 noteViewModel.dialogState = true
+                noteViewModel.dialogState = true
                 //noteViewModel.titleState = ""
             }) {
             Icon(/*modifier = Modifier
@@ -49,6 +56,9 @@ fun NoteList(noteViewModel: NoteViewModel = viewModel()) {
             Text(color = xDarkGreen, text = Str.ADD)
         }
     }) {
-LazyColumn(content = {items(50){itemNote-> NoteCard()} },contentPadding = PaddingValues(bottom = 80.dp))
+        LazyColumn(
+            content = { items(50) { itemNote -> NoteCard(noteViewModel = noteViewModel) } },
+            contentPadding = PaddingValues(bottom = 80.dp)
+        )
     }
 }

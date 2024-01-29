@@ -6,12 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -20,11 +17,9 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -33,25 +28,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import vi1ain.my.notealarm3.R
+import vi1ain.my.notealarm3.data.NoteViewModel
 import vi1ain.my.notealarm3.ui.theme.xBlue
 import vi1ain.my.notealarm3.ui.theme.xDarkGreen
 import vi1ain.my.notealarm3.ui.theme.xDarkText
 import vi1ain.my.notealarm3.ui.theme.xGreen
 import vi1ain.my.notealarm3.ui.theme.xLightGreen
-import vi1ain.my.notealarm3.ui.theme.xLightRed
 import vi1ain.my.notealarm3.ui.theme.xLightText
 import vi1ain.my.notealarm3.ui.theme.xPurple
 import vi1ain.my.notealarm3.ui.theme.xRed
 import vi1ain.my.notealarm3.ui.theme.xWhite
-import kotlin.time.measureTime
 
-@Preview(showBackground = true)
 
 @Composable
-fun NoteCard() {
-    ConstraintLayout(modifier = Modifier.clickable {
-        //TODO
-    }.padding(start = 3.dp, end = 3.dp, top = 18.dp)) {
+fun NoteCard(noteViewModel: NoteViewModel) {
+    ConstraintLayout(modifier = Modifier
+        .clickable {
+            //TODO
+        }
+        .padding(start = 3.dp, end = 3.dp, top = 18.dp)) {
         val (card, onAlarmButtom, offAlarmButtom, deleteButtom, checkBox) = createRefs()
         Card(colors = CardDefaults.cardColors(
             containerColor = xLightGreen,
@@ -80,13 +75,15 @@ fun NoteCard() {
                     fontSize = 12.sp
                 )
                 Row {
-                    Text(color = xBlue,
+                    Text(
+                        color = xBlue,
                         modifier = Modifier.weight(1f),
                         text = "14:55",
                         style = TextStyle(color = xDarkText),
                         fontSize = 10.sp
                     )
-                    Text(color = xBlue,
+                    Text(
+                        color = xBlue,
                         text = "12.01.2024 - 19:28",
                         style = TextStyle(color = xLightText),
                         fontSize = 10.sp
@@ -105,7 +102,7 @@ fun NoteCard() {
 
             }
             .padding(end = 15.dp)
-            .size(30.dp), onClick = {
+            .size(35.dp), onClick = {
 //TODO
         }) {
             Icon(
@@ -131,7 +128,7 @@ fun NoteCard() {
             .background(color = xPurple),
             checked = true,
             onCheckedChange = {
-                              //TODO
+                //TODO
             },
 
             colors = CheckboxDefaults.colors(
@@ -150,8 +147,8 @@ fun NoteCard() {
 
             }
             .padding(end = 15.dp)
-            .size(30.dp), onClick = {
-//TODO
+            .size(35.dp), onClick = {
+            noteViewModel.openDialogDatePicker = true
         }) {
             Icon(
                 painter = painterResource(id = R.drawable.noti_add),
@@ -172,7 +169,7 @@ fun NoteCard() {
 
             }
             .padding(end = 15.dp)
-            .size(30.dp), onClick = {
+            .size(35.dp), onClick = {
 //TODO
         }) {
             Icon(
