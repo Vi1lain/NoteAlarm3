@@ -34,7 +34,7 @@ fun DialogController(
         },
         confirmButton = {TextButton(onClick = { confirmButton() }) {
             Text(
-                //text = if (noteViewModel.newNoteEntity == null) "Добавить" else
+                text = if (noteViewModel.newNoteItem == null) "Добавить" else
                     "Изменить"
             )
         } },

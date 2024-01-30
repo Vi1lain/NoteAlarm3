@@ -23,17 +23,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import vi1ain.my.notealarm3.R
+import vi1ain.my.notealarm3.data.NoteEntity
 import vi1ain.my.notealarm3.data.NoteViewModel
 import vi1ain.my.notealarm3.ui.theme.xBlue
 import vi1ain.my.notealarm3.ui.theme.xDarkGreen
 import vi1ain.my.notealarm3.ui.theme.xDarkText
 import vi1ain.my.notealarm3.ui.theme.xGreen
 import vi1ain.my.notealarm3.ui.theme.xLightGreen
+import vi1ain.my.notealarm3.ui.theme.xLightRed
 import vi1ain.my.notealarm3.ui.theme.xLightText
 import vi1ain.my.notealarm3.ui.theme.xPurple
 import vi1ain.my.notealarm3.ui.theme.xRed
@@ -41,16 +42,22 @@ import vi1ain.my.notealarm3.ui.theme.xWhite
 
 
 @Composable
-fun NoteCard(noteViewModel: NoteViewModel) {
+fun NoteCard(
+    onClickEdit: (NoteEntity) -> Unit,
+    onClickDelete: (NoteEntity) -> Unit,
+    noteViewModel: NoteViewModel,
+    itemNote: NoteEntity,
+) {
     ConstraintLayout(modifier = Modifier
         .clickable {
-            //TODO
+            onClickEdit(itemNote)
+            noteViewModel.dialogState = true
         }
-        .padding(start = 3.dp, end = 3.dp, top = 18.dp)) {
+        .padding(start = 3.dp, end = 3.dp, top = 20.dp)) {
         val (card, onAlarmButtom, offAlarmButtom, deleteButtom, checkBox) = createRefs()
         Card(colors = CardDefaults.cardColors(
             containerColor = xLightGreen,
-        ), border = BorderStroke(1.dp, xDarkGreen), modifier = Modifier
+        ), border = BorderStroke(0.5.dp, xGreen), modifier = Modifier
             .fillMaxWidth()
             .constrainAs(card) {
                 top.linkTo(parent.top)
@@ -64,13 +71,13 @@ fun NoteCard(noteViewModel: NoteViewModel) {
                     .padding(10.dp)
             ) {
                 Text(
-                    text = "Title",
+                    text = itemNote.title,
                     style = TextStyle(color = xDarkText),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
                 Text(
-                    text = "Description",
+                    text = itemNote.description,
                     style = TextStyle(color = xLightText),
                     fontSize = 12.sp
                 )
@@ -103,7 +110,7 @@ fun NoteCard(noteViewModel: NoteViewModel) {
             }
             .padding(end = 15.dp)
             .size(35.dp), onClick = {
-//TODO
+            onClickDelete(itemNote)
         }) {
             Icon(
                 painter = painterResource(id = R.drawable.delete_icon),
@@ -126,9 +133,9 @@ fun NoteCard(noteViewModel: NoteViewModel) {
             .clip(CircleShape)
             .size(30.dp)
             .background(color = xPurple),
-            checked = true,
-            onCheckedChange = {
-                //TODO
+            checked = itemNote.isCheck,
+            onCheckedChange = {check->
+                noteViewModel.checkBoxNote(itemNote.copy(isCheck =check ))
             },
 
             colors = CheckboxDefaults.colors(

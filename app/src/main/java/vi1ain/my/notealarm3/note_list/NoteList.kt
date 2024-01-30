@@ -3,6 +3,7 @@ package vi1ain.my.notealarm3.note_list
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -13,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import vi1ain.my.notealarm3.R
+import vi1ain.my.notealarm3.data.NoteEntity
 import vi1ain.my.notealarm3.data.NoteViewModel
 import vi1ain.my.notealarm3.data.Str
 import vi1ain.my.notealarm3.date_time_picker.DialogDatePicker
@@ -26,34 +28,40 @@ import vi1ain.my.notealarm3.ui.theme.xLightGreen
 fun NoteList(noteViewModel: NoteViewModel = viewModel()) {
     val noteList = noteViewModel.noteList.collectAsState(initial = emptyList())
 
-    if (noteViewModel.dialogState) DialogController(
-        onDismissRequest = { noteViewModel.dialogState = false },
-        confirmButton = { noteViewModel.dialogState = false },
-        dismissButton = { noteViewModel.dialogState = false },
-        noteViewModel = noteViewModel
+    if (noteViewModel.dialogState) DialogController(onDismissRequest = {
+        noteViewModel.dialogState = false
+    }, confirmButton = {
+        noteViewModel.insertNotes()
+        noteViewModel.dialogState = false
+    }, dismissButton = { noteViewModel.dialogState = false }, noteViewModel = noteViewModel
     )
     if (noteViewModel.openDialogDatePicker) DialogDatePicker(
-        onDismissRequest = { noteViewModel.openDialogDatePicker = false },
-        confirmButton = { noteViewModel.openDialogDatePicker = false
+        onDismissRequest = {
+            noteViewModel.openDialogDatePicker = false
+        },
+        confirmButton = {
+            noteViewModel.openDialogDatePicker = false
             noteViewModel.openDialogTimePicker = true
-                        },
+        },
         dismissButton = { noteViewModel.openDialogDatePicker = false },
         noteViewModel = noteViewModel
     )
     if (noteViewModel.openDialogTimePicker) DialogTimePicker(
-        onDismissRequest = { noteViewModel.openDialogTimePicker = false },
+        onDismissRequest = {
+            noteViewModel.openDialogTimePicker = false
+        },
         confirmButton = { noteViewModel.openDialogTimePicker = false },
         dismissButton = { noteViewModel.openDialogTimePicker = false },
         noteViewModel = noteViewModel
     )
 
     Scaffold(floatingActionButton = {
-        ExtendedFloatingActionButton(
-            containerColor = xLightGreen,
-            onClick = {
-                noteViewModel.dialogState = true
-                //noteViewModel.titleState = ""
-            }) {
+        ExtendedFloatingActionButton(containerColor = xLightGreen, onClick = {
+            noteViewModel.titleState = ""
+            noteViewModel.descriptionState = ""
+            noteViewModel.newNoteItem = null
+            noteViewModel.dialogState = true
+        }) {
             Icon(/*modifier = Modifier
                 .clip(CircleShape)
                 .background(color = xGreen)
@@ -66,8 +74,18 @@ fun NoteList(noteViewModel: NoteViewModel = viewModel()) {
         }
     }) {
         LazyColumn(
-            content = { items(50) { itemNote -> NoteCard(noteViewModel = noteViewModel) } },
-            contentPadding = PaddingValues(bottom = 80.dp)
+            content = {
+                items(noteList.value) { itemNote ->
+                    NoteCard(itemNote = itemNote,
+                        noteViewModel = noteViewModel,
+                        onClickEdit = { item ->
+                            noteViewModel.newNoteItem = item
+                            noteViewModel.titleState = item.title
+                            noteViewModel.descriptionState = item.description
+                        },
+                        onClickDelete = { item -> noteViewModel.deleteNote(item) })
+                }
+            }, contentPadding = PaddingValues(bottom = 80.dp)
         )
     }
 }

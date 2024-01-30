@@ -55,4 +55,8 @@ var dialogState by mutableStateOf(false)
 
     fun deleteNote(noteEntity: NoteEntity) =
         viewModelScope.launch { repository.deleteNote(noteEntity = noteEntity) }
+
+    fun checkBoxNote(noteEntity: NoteEntity) = viewModelScope.launch {
+        repository.insertNote(noteEntity = noteEntity)}
 }
+
