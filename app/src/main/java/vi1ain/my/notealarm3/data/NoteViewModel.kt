@@ -48,6 +48,7 @@ class NoteViewModel @Inject constructor(private val repository: NoteRepository) 
                     description = descriptionState,
                     timeOfCreation = getCurrentTime(),
                     isCheck = newNoteItem?.isCheck ?: false,
+                    switch = newNoteItem?.switch ?: false,
                 )
             repository.insertNote(noteEntity = noteItem)
 
@@ -75,6 +76,9 @@ class NoteViewModel @Inject constructor(private val repository: NoteRepository) 
         viewModelScope.launch { repository.deleteNote(noteEntity = noteEntity) }
 
     fun checkBoxNote(noteEntity: NoteEntity) = viewModelScope.launch {
+        repository.insertNote(noteEntity = noteEntity)
+    }
+    fun switchNote(noteEntity: NoteEntity) = viewModelScope.launch {
         repository.insertNote(noteEntity = noteEntity)
     }
 

@@ -16,6 +16,7 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -56,7 +57,7 @@ fun NoteCard(
             noteViewModel.dialogState = true
         }
         .padding(start = 3.dp, end = 3.dp, top = 20.dp)) {
-        val (card, onAlarmButtom, offAlarmButtom, deleteButtom, checkBox) = createRefs()
+        val (card, onAlarmButtom, switch, deleteButtom, checkBox) = createRefs()
         Card(colors = CardDefaults.cardColors(
             containerColor = xLightGreen,
         ), border = BorderStroke(0.5.dp, xGreen), modifier = Modifier
@@ -149,6 +150,21 @@ fun NoteCard(
                 checkmarkColor = xWhite
             )
         )
+        Switch(enabled = if (itemNote.year!=null) true else false, modifier = Modifier
+            .constrainAs(switch) {
+                top.linkTo(card.top)
+                end.linkTo(onAlarmButtom.start)
+                bottom.linkTo(card.top)
+
+            }
+            .padding(end = 15.dp),
+            checked = itemNote.switch,
+            onCheckedChange = {switch->
+                noteViewModel.switchNote(itemNote.copy(switch =switch )) }, thumbContent = {Icon(
+                painter = painterResource(id = R.drawable.noti_add ),
+                contentDescription = "Alarm"
+            )}
+        )
         IconButton(modifier = Modifier
             .constrainAs(onAlarmButtom) {
                 top.linkTo(card.top)
@@ -167,7 +183,7 @@ fun NoteCard(
                 contentDescription = "addAlarm",
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(color =xGreen )
+                    .background(color = xGreen)
                     .padding(5.dp),
                 tint = xDarkText,
             )
