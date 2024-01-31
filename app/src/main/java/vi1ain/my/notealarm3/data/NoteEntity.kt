@@ -16,4 +16,5 @@ data class NoteEntity (
     val hour:Int?=null,
     val minutes:Int?=null,
     val isCheck: Boolean,
+
 )

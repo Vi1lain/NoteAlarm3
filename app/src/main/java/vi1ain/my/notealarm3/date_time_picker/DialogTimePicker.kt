@@ -17,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import vi1ain.my.notealarm3.alarm_manager.AlarmIntentManager
 import vi1ain.my.notealarm3.data.NoteViewModel
 import vi1ain.my.notealarm3.ui.theme.xGreen
 import vi1ain.my.notealarm3.ui.theme.xLightGreen
 import vi1ain.my.notealarm3.ui.theme.xWhite
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,6 +31,7 @@ fun DialogTimePicker(
     dismissButton: () -> Unit,
     confirmButton: () -> Unit,
     noteViewModel: NoteViewModel,
+    alarmIntentManager: AlarmIntentManager,
 ) {
     val timePickerState = rememberTimePickerState(
         initialHour = noteViewModel.selectedHour,
@@ -54,7 +57,7 @@ fun DialogTimePicker(
                     clockDialColor = xWhite,
                     clockDialSelectedContentColor = xWhite,
                     timeSelectorSelectedContainerColor = xGreen,
-                    timeSelectorUnselectedContainerColor =  xWhite
+                    timeSelectorUnselectedContainerColor = xWhite
                 )
             )
 
@@ -67,7 +70,19 @@ fun DialogTimePicker(
                 TextButton(onClick = { dismissButton() }) {
                     Text(text = "Dismiss")
                 }
-                TextButton(onClick = { confirmButton() }) {
+                TextButton(onClick = {
+                    noteViewModel.selectedHour = timePickerState.hour
+                    noteViewModel.selectedMinute = timePickerState.minute
+                    noteViewModel.alarmTimeNote()
+                    noteViewModel.calendar.set(Calendar.YEAR,noteViewModel.selectedYear)
+                    noteViewModel.calendar.set(Calendar.MONTH,noteViewModel.selectedMonth-1)
+                    noteViewModel.calendar.set(Calendar.DAY_OF_MONTH,noteViewModel.selectedDay)
+                    noteViewModel.calendar.set(Calendar.HOUR_OF_DAY,timePickerState.hour)
+                    noteViewModel.calendar.set(Calendar.MINUTE,timePickerState.minute)
+
+                    alarmIntentManager.schedule(noteViewModel.newNoteItem!!,noteViewModel)
+                    confirmButton()
+                }) {
                     Text(text = "Confirm")
                 }
             }
