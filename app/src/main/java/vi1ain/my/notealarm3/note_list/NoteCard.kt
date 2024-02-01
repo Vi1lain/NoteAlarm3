@@ -221,7 +221,7 @@ fun NoteCard(
                 bottom.linkTo(card.top)
 
             }
-            .padding(end = 15.dp)
+            .padding(end = 60.dp)
             .size(35.dp), onClick = {
             noteViewModel.newNoteItem = itemNote
             noteViewModel.openDialogDatePicker = true
