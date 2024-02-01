@@ -74,13 +74,13 @@ fun DialogTimePicker(
                     noteViewModel.selectedHour = timePickerState.hour
                     noteViewModel.selectedMinute = timePickerState.minute
                     noteViewModel.alarmTimeNote()
-                    noteViewModel.calendar.set(Calendar.YEAR,noteViewModel.selectedYear)
-                    noteViewModel.calendar.set(Calendar.MONTH,noteViewModel.selectedMonth-1)
-                    noteViewModel.calendar.set(Calendar.DAY_OF_MONTH,noteViewModel.selectedDay)
-                    noteViewModel.calendar.set(Calendar.HOUR_OF_DAY,timePickerState.hour)
-                    noteViewModel.calendar.set(Calendar.MINUTE,timePickerState.minute)
+                    noteViewModel.calendar.set(Calendar.YEAR, noteViewModel.selectedYear)
+                    noteViewModel.calendar.set(Calendar.MONTH, noteViewModel.selectedMonth - 1)
+                    noteViewModel.calendar.set(Calendar.DAY_OF_MONTH, noteViewModel.selectedDay)
+                    noteViewModel.calendar.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+                    noteViewModel.calendar.set(Calendar.MINUTE, timePickerState.minute)
 
-                    alarmIntentManager.schedule(noteViewModel.newNoteItem!!,noteViewModel)
+                    alarmIntentManager.schedule(noteViewModel.newNoteItem!!, noteViewModel)
                     confirmButton()
                 }) {
                     Text(text = "Confirm")

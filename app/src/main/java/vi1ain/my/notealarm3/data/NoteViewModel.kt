@@ -48,7 +48,7 @@ class NoteViewModel @Inject constructor(private val repository: NoteRepository) 
                     description = descriptionState,
                     timeOfCreation = getCurrentTime(),
                     isCheck = newNoteItem?.isCheck ?: false,
-                    switch = newNoteItem?.switch ?: false,
+                    alarmIsCheck = newNoteItem?.alarmIsCheck ?: false,
                 )
             repository.insertNote(noteEntity = noteItem)
 
@@ -78,10 +78,13 @@ class NoteViewModel @Inject constructor(private val repository: NoteRepository) 
     fun checkBoxNote(noteEntity: NoteEntity) = viewModelScope.launch {
         repository.insertNote(noteEntity = noteEntity)
     }
-    fun switchNote(noteEntity: NoteEntity) = viewModelScope.launch {
+
+    fun deleteAlarmCheckNote(noteEntity: NoteEntity) = viewModelScope.launch {
         repository.insertNote(noteEntity = noteEntity)
     }
-
+    fun snackBarItem(noteCheckItem:NoteEntity) = viewModelScope.launch {
+        repository.insertNote(noteEntity = noteCheckItem)
+    }
     fun alarmTimeNote() = viewModelScope.launch {
         val item = newNoteItem?.copy(
             year = selectedYear,
@@ -89,6 +92,7 @@ class NoteViewModel @Inject constructor(private val repository: NoteRepository) 
             day = selectedDay,
             hour = selectedHour,
             minutes = selectedMinute,
+            alarmIsCheck = true
         )
         if (item != null) {
             repository.insertNote(noteEntity = item)

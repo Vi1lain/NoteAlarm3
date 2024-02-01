@@ -14,27 +14,30 @@ import vi1ain.my.notealarm3.R
 class MyReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val message = intent.getStringExtra("key")?:return
-        val itemID = intent.getIntExtra("keyID",0)?:return
+        val message = intent.getStringExtra("key") ?: return
+        val itemID = intent.getIntExtra("keyID", 0) ?: return
+
         Log.d("MyLog", "Alarm message:$message")
-        showNatification(context,"Make it Easy $message", "Alarm message:$message",myID = itemID)
+        showNatification(context, "Make it Easy $message", "Alarm message:$message", myID = itemID)
+
     }
 
     @SuppressLint("ObsoleteSdkInt")
-    private fun showNatification(context: Context, title: String, desc: String,myID:Int) {
+    private fun showNatification(context: Context, title: String, desc: String, myID: Int) {
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelID = "message_channel"
         val channelName = "message_name"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val channel = NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel =
+                NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_DEFAULT)
             manager.createNotificationChannel(channel)
         }
-        val  builder = NotificationCompat.Builder(context,channelID)
+        val builder = NotificationCompat.Builder(context, channelID)
             .setContentText(title)
             .setContentTitle(desc)
             .setSmallIcon(R.drawable.alarm_icon)
-        manager.notify(myID,builder.build())
+        manager.notify(myID, builder.build())
 
     }
 }

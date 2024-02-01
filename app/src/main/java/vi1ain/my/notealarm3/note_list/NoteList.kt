@@ -7,9 +7,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,8 +29,10 @@ import vi1ain.my.notealarm3.ui.theme.xLightGreen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NoteList(noteViewModel: NoteViewModel = viewModel(),alarmIntentManager: AlarmIntentManager) {
+fun NoteList(noteViewModel: NoteViewModel = viewModel(), alarmIntentManager: AlarmIntentManager) {
     val noteList = noteViewModel.noteList.collectAsState(initial = emptyList())
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     if (noteViewModel.dialogState) DialogController(onDismissRequest = {
         noteViewModel.dialogState = false
@@ -49,16 +55,21 @@ fun NoteList(noteViewModel: NoteViewModel = viewModel(),alarmIntentManager: Alar
     )
     //TIME_PICKER
     if (noteViewModel.openDialogTimePicker) DialogTimePicker(
-        alarmIntentManager=alarmIntentManager,
+        alarmIntentManager = alarmIntentManager,
         onDismissRequest = {
             noteViewModel.openDialogTimePicker = false
         },
-        confirmButton = { noteViewModel.openDialogTimePicker = false },
+        confirmButton = {
+            noteViewModel.openDialogTimePicker = false
+
+        },
         dismissButton = { noteViewModel.openDialogTimePicker = false },
         noteViewModel = noteViewModel
     )
 
-    Scaffold(floatingActionButton = {
+    Scaffold(snackbarHost = {
+        SnackbarHost(hostState = snackbarHostState)
+    },floatingActionButton = {
         ExtendedFloatingActionButton(containerColor = xLightGreen, onClick = {
             noteViewModel.titleState = ""
             noteViewModel.descriptionState = ""
@@ -79,8 +90,9 @@ fun NoteList(noteViewModel: NoteViewModel = viewModel(),alarmIntentManager: Alar
         LazyColumn(
             content = {
                 items(noteList.value) { itemNote ->
-                    NoteCard(
-                        alarmIntentManager =alarmIntentManager,
+                    NoteCard(scope = scope,
+                        snackbarHostState = snackbarHostState,
+                        alarmIntentManager = alarmIntentManager,
                         itemNote = itemNote,
                         noteViewModel = noteViewModel,
                         onClickEdit = { item ->
@@ -88,8 +100,7 @@ fun NoteList(noteViewModel: NoteViewModel = viewModel(),alarmIntentManager: Alar
                             noteViewModel.titleState = item.title
                             noteViewModel.descriptionState = item.description
                         },
-                        onClickDelete = {
-                            item -> noteViewModel.deleteNote(item) })
+                        onClickDelete = { item -> noteViewModel.deleteNote(item) })
                 }
             }, contentPadding = PaddingValues(bottom = 80.dp)
         )
