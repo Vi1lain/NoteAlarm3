@@ -15,7 +15,7 @@ class MyReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val message = intent.getStringExtra("key") ?: return
-        val itemID = intent.getIntExtra("keyID", 0) ?: return
+        val itemID = intent.getIntExtra("keyID", -1) ?: return
 
         Log.d("MyLog", "Alarm message:$message")
         showNatification(context, "Make it Easy $message", "Alarm message:$message", myID = itemID)

@@ -4,15 +4,12 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -22,17 +19,13 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -92,16 +85,16 @@ fun NoteCard(
                     .fillMaxWidth()
                     .padding(10.dp)
             ) {
+                Text(
+                    modifier = Modifier.offset(x = 40.dp),
+                    text = itemNote.title,
+                    style = TextStyle(color = xDarkText),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
 
-
-                    Text(modifier = Modifier.offset(x =40.dp,),
-                        text = itemNote.title,
-                        style = TextStyle(color = xDarkText),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
-                    )
-
-                Text(modifier = Modifier.offset(x =20.dp,),
+                Text(
+                    modifier = Modifier.offset(x = 20.dp),
                     text = itemNote.description,
                     style = TextStyle(color = xLightText),
                     fontSize = 12.sp
@@ -114,7 +107,8 @@ fun NoteCard(
                         style = TextStyle(color = xDarkText),
                         fontSize = 10.sp
                     )
-                    Text(modifier = Modifier.padding(end = 40.dp),
+                    Text(
+                        modifier = Modifier.padding(end = 40.dp),
                         color = xBlue,
                         text = if (itemNote.year != null)
                             "напомнить - ${itemNote.day}.${itemNote.month}.${itemNote.year} " +
@@ -123,18 +117,20 @@ fun NoteCard(
                         style = TextStyle(color = xLightText),
                         fontSize = 10.sp
                     )
-
                 }
                 Divider(modifier = Modifier.fillMaxWidth(), color = xWhite)
-
             }
         }
-        IconButton(modifier = Modifier.clip(RoundedCornerShape(
-            topStart = 30.dp,
-            topEnd = 0.dp,
-            bottomEnd = 10.dp,
-            bottomStart = 0.dp,
-        )).background(color = xRed)
+        IconButton(modifier = Modifier
+            .clip(
+                RoundedCornerShape(
+                    topStart = 30.dp,
+                    topEnd = 0.dp,
+                    bottomEnd = 10.dp,
+                    bottomStart = 0.dp,
+                )
+            )
+            .background(color = xRed)
             .size(40.dp)
             .constrainAs(deleteButtom) {
                 //top.linkTo(card.top)
@@ -143,40 +139,40 @@ fun NoteCard(
 
             }
             //.padding(end = 15.dp)
-           // .size(45.dp)
+            // .size(45.dp)
             , onClick = {
-            scope.launch { val result = snackbarHostState
-                .showSnackbar(
-                    message = itemNote.title,
-                    actionLabel ="Восстановить" ,
-
-                    duration = SnackbarDuration.Short
-
-                )
-                when (result) {
-                    SnackbarResult.ActionPerformed -> {
-                        noteViewModel.snackBarItem(itemNote)
+                scope.launch {
+                    val result = snackbarHostState
+                        .showSnackbar(
+                            message = itemNote.title,
+                            actionLabel = "Восстановить",
+                            duration = SnackbarDuration.Short
+                        )
+                    when (result) {
+                        SnackbarResult.ActionPerformed -> {
+                            noteViewModel.snackBarItem(itemNote)
+                        }
+                        SnackbarResult.Dismissed -> {
+                            /* Handle snackbar dismissed */
+                        }
                     }
-                    SnackbarResult.Dismissed -> {
-                        /* Handle snackbar dismissed */
-                    }}
-                /*if (result == SnackbarResult.ActionPerformed) {
-                    noteViewModel.snackBarItem(itemNote)
-                }*/
-            }
-            alarmIntentManager.cansel(itemNote)
-            onClickDelete(itemNote)
-        }) {
+                    /*if (result == SnackbarResult.ActionPerformed) {
+                        noteViewModel.snackBarItem(itemNote)
+                    }*/
+                }
+                alarmIntentManager.cansel(itemNote)
+                onClickDelete(itemNote)
+            }) {
             Icon(
                 painter = painterResource(id = R.drawable.delete_icon),
                 contentDescription = "Delete",
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier
+                    .size(40.dp)
 
 
-                    .padding(5.dp)
-                ,tint = xWhite,
+                    .padding(5.dp),
+                tint = xWhite,
             )
-
         }
         Checkbox(modifier = Modifier
             .constrainAs(checkBox) {
@@ -187,11 +183,11 @@ fun NoteCard(
             }
             .clip(
                 RoundedCornerShape(
-                topStart = 10.dp,
-                topEnd = 0.dp,
-                bottomEnd = 30.dp,
-                bottomStart = 0.dp,
-            )
+                    topStart = 10.dp,
+                    topEnd = 0.dp,
+                    bottomEnd = 30.dp,
+                    bottomStart = 0.dp,
+                )
             )
             .size(40.dp)
             .background(color = xPurple),
@@ -204,7 +200,6 @@ fun NoteCard(
                     )
                 )
             },
-
             colors = CheckboxDefaults.colors(
 
                 uncheckedColor = xPurple,
@@ -219,13 +214,11 @@ fun NoteCard(
                 top.linkTo(card.top)
                 end.linkTo(card.end)
                 bottom.linkTo(card.top)
-
             }
             .padding(end = 60.dp)
             .size(35.dp), onClick = {
             noteViewModel.newNoteItem = itemNote
             noteViewModel.openDialogDatePicker = true
-
         }) {
             Icon(
                 painter = painterResource(id = R.drawable.noti_add),
@@ -236,31 +229,28 @@ fun NoteCard(
                     .padding(5.dp),
                 tint = xDarkText,
             )
-
         }
         IconButton(modifier = Modifier
             .constrainAs(offAlarmButtom) {
                 top.linkTo(card.top)
                 end.linkTo(onAlarmButtom.start)
                 bottom.linkTo(card.top)
-
             }
             .padding(end = 15.dp)
             //.size(35.dp)
             , onClick = {
-            noteViewModel.deleteAlarmCheckNote(
-                itemNote.copy(
-                    year = null,
-                    month = null,
-                    day = null,
-                    hour = null,
-                    minutes = null,
-                    alarmIsCheck = false
+                noteViewModel.deleteAlarmCheckNote(
+                    itemNote.copy(
+                        year = null,
+                        month = null,
+                        day = null,
+                        hour = null,
+                        minutes = null,
+                        alarmIsCheck = false
+                    )
                 )
-            )
-            alarmIntentManager.cansel(itemNote)
-
-        }, enabled = itemNote.alarmIsCheck
+                alarmIntentManager.cansel(itemNote)
+            }, enabled = itemNote.alarmIsCheck
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.noti_cansel),
@@ -271,7 +261,6 @@ fun NoteCard(
                     .padding(5.dp),
                 tint = xDarkText,
             )
-
         }
     }
 }
