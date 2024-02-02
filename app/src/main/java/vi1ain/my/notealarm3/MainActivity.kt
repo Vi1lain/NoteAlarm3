@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import dagger.hilt.android.AndroidEntryPoint
 import vi1ain.my.notealarm3.alarm_manager.AlarmIntentManager
-import vi1ain.my.notealarm3.note_list.NoteList
+import vi1ain.my.notealarm3.navigation.MyNavigation
 import vi1ain.my.notealarm3.ui.theme.NoteAlarm3Theme
 
 @AndroidEntryPoint
@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NoteList(alarmIntentManager = alarmIntentManager)
+                    MyNavigation(alarmIntentManager = alarmIntentManager)
                 }
             }
         }
