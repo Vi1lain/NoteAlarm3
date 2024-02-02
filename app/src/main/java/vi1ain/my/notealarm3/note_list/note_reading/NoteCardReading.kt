@@ -11,23 +11,28 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import vi1ain.my.notealarm3.R
 import vi1ain.my.notealarm3.data.NoteViewModel
+import vi1ain.my.notealarm3.navigation.Routes
 import vi1ain.my.notealarm3.ui.theme.xDarkGreen
 import vi1ain.my.notealarm3.ui.theme.xGreen
 import vi1ain.my.notealarm3.ui.theme.xWhite
 
 
 @Composable
-fun NoteCardReading(noteViewModel: NoteViewModel) {
+fun NoteCardReading(noteViewModel: NoteViewModel, navController: NavHostController) {
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 20.dp
@@ -49,10 +54,14 @@ fun NoteCardReading(noteViewModel: NoteViewModel) {
             Arrangement.Center,
             Alignment.CenterHorizontally
         ) {
-            Text(
-                text = noteViewModel.titleState, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
-            )
+            TextButton(modifier = Modifier.fillMaxWidth(),onClick = { navController.popBackStack(route = Routes.LIST_SCREEN, inclusive = false)}) {
+                Icon(painter = painterResource(id = R.drawable.back_icon), contentDescription = "Back")
+                Text(modifier = Modifier.weight(1f),
+                    text = noteViewModel.titleState, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+            }
+
             Divider(thickness = 2.dp, modifier = Modifier.fillMaxWidth(), color = xGreen)
             Text(
                 textAlign = TextAlign.Left,

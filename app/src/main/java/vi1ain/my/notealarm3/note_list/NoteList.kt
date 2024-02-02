@@ -46,11 +46,6 @@ fun NoteList(
     val noteList = noteViewModel.noteList.collectAsState(initial = emptyList())
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    val dismissState = rememberDismissState()
-
-    /*SwipeToDismiss(state = dismissState, background = { Box(modifier = Modifier)}, dismissContent = { NoteCardReading(
-        noteViewModel = noteViewModel
-    )})*/
 
     if (noteViewModel.dialogState) DialogController(onDismissRequest = {
         noteViewModel.insertNotes(alarmIntentManager)

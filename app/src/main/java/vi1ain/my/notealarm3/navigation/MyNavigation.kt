@@ -11,15 +11,30 @@ import vi1ain.my.notealarm3.note_list.NoteList
 import vi1ain.my.notealarm3.note_list.note_reading.NoteCardReading
 
 
-object Routes{
+object Routes {
     const val LIST_SCREEN = "listScreen"
     const val NOTE_READLING = "NoteReadling"
 }
+
 @Composable
-fun MyNavigation(noteViewModel: NoteViewModel = viewModel(), alarmIntentManager: AlarmIntentManager) {
+fun MyNavigation(
+    noteViewModel: NoteViewModel = viewModel(),
+    alarmIntentManager: AlarmIntentManager
+) {
     val navController = rememberNavController()
-    NavHost(navController = navController , startDestination = Routes.LIST_SCREEN ){
-        composable(route =Routes.LIST_SCREEN){ NoteList(noteViewModel=noteViewModel,navController = navController,alarmIntentManager =alarmIntentManager )}
-        composable(Routes.NOTE_READLING){ NoteCardReading(noteViewModel=noteViewModel)}
+    NavHost(navController = navController, startDestination = Routes.LIST_SCREEN) {
+        composable(route = Routes.LIST_SCREEN) {
+            NoteList(
+                noteViewModel = noteViewModel,
+                navController = navController,
+                alarmIntentManager = alarmIntentManager
+            )
+        }
+        composable(Routes.NOTE_READLING) {
+            NoteCardReading(
+                noteViewModel = noteViewModel,
+                navController = navController
+            )
+        }
     }
 }
