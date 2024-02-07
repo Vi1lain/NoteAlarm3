@@ -5,8 +5,6 @@ object Str {
     const val TITLE = "Заголовок"
     const val DESCRIPTION = "Описание"
     const val NEW_NOTE = "Новая запись"
-    const val ADD_TITLE = "Добавить заголовок"
-    const val ADD_DISCRIPTION = "Добавить описание"
 
     //Buttons
     const val ADD = "Добавить"

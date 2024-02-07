@@ -48,12 +48,12 @@ fun DialogController(
                 Text(text = if (noteViewModel.newNoteItem == null) Str.NEW_NOTE else
                     Str.EDIT)
                 TextField(maxLines =2,colors = TextFieldDefaults.textFieldColors(containerColor = xLightGreen),
-                    label = { Text(text = Str.ADD_TITLE, color = xLightText )},
+                    label = { Text(text = Str.TITLE, color = xLightText )},
                     modifier = Modifier.fillMaxWidth(),
                     value = noteViewModel.titleState,
                     onValueChange = { textTitle -> noteViewModel.titleState = textTitle })
                 TextField(maxLines =5,colors = TextFieldDefaults.textFieldColors(containerColor = xLightGreen),
-                    label = { Text(text = Str.ADD_DISCRIPTION, color = xLightText )},
+                    label = { Text(text = Str.DESCRIPTION, color = xLightText )},
                     modifier = Modifier
                         .fillMaxWidth()
                         .verticalScroll(rememberScrollState()),
