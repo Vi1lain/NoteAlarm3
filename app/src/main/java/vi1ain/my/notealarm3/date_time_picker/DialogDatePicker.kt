@@ -10,6 +10,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import vi1ain.my.notealarm3.data.NoteViewModel
+import vi1ain.my.notealarm3.data.Str
 import vi1ain.my.notealarm3.ui.theme.xLightGreen
 import java.time.Instant
 import java.time.LocalDate
@@ -44,12 +45,12 @@ fun DialogDatePicker(
         onDismissRequest = { onDismissRequest() },
         confirmButton = {
             TextButton(onClick = { confirmButton() }) {
-                Text("OK")
+                Text(Str.OK)
             }
         },
         dismissButton = {
             TextButton(onClick = { dismissButton() }) {
-                Text("Cancel")
+                Text(Str.CANSEL)
             }
         }) {
         DatePicker(state = datePickerState, dateValidator = { timesTamp ->

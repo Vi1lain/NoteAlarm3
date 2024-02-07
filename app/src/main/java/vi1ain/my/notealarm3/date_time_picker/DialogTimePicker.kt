@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import vi1ain.my.notealarm3.alarm_manager.AlarmIntentManager
 import vi1ain.my.notealarm3.data.NoteViewModel
+import vi1ain.my.notealarm3.data.Str
 import vi1ain.my.notealarm3.ui.theme.xGreen
 import vi1ain.my.notealarm3.ui.theme.xLightGreen
 import vi1ain.my.notealarm3.ui.theme.xWhite
@@ -68,7 +69,7 @@ fun DialogTimePicker(
                 horizontalArrangement = Arrangement.End
             ) {
                 TextButton(onClick = { dismissButton() }) {
-                    Text(text = "Dismiss")
+                    Text(text = Str.CANSEL)
                 }
                 TextButton(onClick = {
                     noteViewModel.selectedHour = timePickerState.hour
@@ -83,7 +84,7 @@ fun DialogTimePicker(
                     alarmIntentManager.schedule(noteViewModel.newNoteItem!!, noteViewModel)
                     confirmButton()
                 }) {
-                    Text(text = "Confirm")
+                    Text(text = Str.OK)
                 }
             }
         }

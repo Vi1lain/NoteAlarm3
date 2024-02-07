@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import vi1ain.my.notealarm3.data.NoteViewModel
+import vi1ain.my.notealarm3.data.Str
 import vi1ain.my.notealarm3.ui.theme.xLightGreen
 import vi1ain.my.notealarm3.ui.theme.xLightText
 
@@ -32,27 +33,27 @@ fun DialogController(
         dismissButton = {
             TextButton(onClick = { dismissButton() }) {
             Text(
-                text = "Отменить"
+                text = Str.CANSEL
             )
         }
         },
         confirmButton = {TextButton(onClick = { confirmButton() }) {
             Text(
-                text = if (noteViewModel.newNoteItem == null) "Добавить" else
-                    "Изменить"
+                text = if (noteViewModel.newNoteItem == null) Str.ADD else
+                    Str.EDIT
             )
         } },
         title = {
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = if (noteViewModel.newNoteItem == null) "Новая заметка" else
-                    "Редактирование")
+                Text(text = if (noteViewModel.newNoteItem == null) Str.NEW_NOTE else
+                    Str.EDIT)
                 TextField(maxLines =2,colors = TextFieldDefaults.textFieldColors(containerColor = xLightGreen),
-                    label = { Text(text = "Add Title", color = xLightText )},
+                    label = { Text(text = Str.ADD_TITLE, color = xLightText )},
                     modifier = Modifier.fillMaxWidth(),
                     value = noteViewModel.titleState,
                     onValueChange = { textTitle -> noteViewModel.titleState = textTitle })
                 TextField(maxLines =5,colors = TextFieldDefaults.textFieldColors(containerColor = xLightGreen),
-                    label = { Text(text = "Add Descriptoin", color = xLightText )},
+                    label = { Text(text = Str.ADD_DISCRIPTION, color = xLightText )},
                     modifier = Modifier
                         .fillMaxWidth()
                         .verticalScroll(rememberScrollState()),

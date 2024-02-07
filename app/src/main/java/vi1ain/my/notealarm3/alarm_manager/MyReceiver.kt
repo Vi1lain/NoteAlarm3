@@ -10,15 +10,24 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import vi1ain.my.notealarm3.R
+import vi1ain.my.notealarm3.data.Str
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 class MyReceiver : BroadcastReceiver() {
 
+    @SuppressLint("SimpleDateFormat")
     override fun onReceive(context: Context, intent: Intent) {
-        val message = intent.getStringExtra("key") ?: return
-        val itemID = intent.getIntExtra("keyID", -1) ?: return
+        val message = intent.getStringExtra(Str.KEY_TITLE) ?: return
+        val itemID = intent.getIntExtra(Str.KEY_ID, -1) ?: return
 
         Log.d("MyLog", "Alarm message:$message")
-        showNatification(context, "Make it Easy $message", "Alarm message:$message", myID = itemID)
+        showNatification(
+            context,
+            "${Str.NATIFICATION_TITLE} $message",
+            "${Str.NATIFICATION_TIME} ${SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().time)}",
+            myID = itemID
+        )
 
     }
 

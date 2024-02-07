@@ -41,6 +41,7 @@ import vi1ain.my.notealarm3.R
 import vi1ain.my.notealarm3.alarm_manager.AlarmIntentManager
 import vi1ain.my.notealarm3.data.NoteEntity
 import vi1ain.my.notealarm3.data.NoteViewModel
+import vi1ain.my.notealarm3.data.Str
 import vi1ain.my.notealarm3.navigation.Routes
 import vi1ain.my.notealarm3.ui.theme.xBlue
 import vi1ain.my.notealarm3.ui.theme.xDarkGreen
@@ -123,7 +124,7 @@ fun NoteCard(
                         modifier = Modifier.padding(end = 40.dp),
                         color = xBlue,
                         text = if (itemNote.year != null)
-                            "напомнить - ${itemNote.day}.${itemNote.month}.${itemNote.year} " +
+                            "напомнить - ${"%02d".format(itemNote.day)}.${"%02d".format(itemNote.month)}.${itemNote.year} " +
                                     "в - ${itemNote.hour}:${"%02d".format(itemNote.minutes)}"
                         else "",
                         style = TextStyle(color = xLightText),
@@ -156,7 +157,7 @@ fun NoteCard(
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.edit_icon),
-                contentDescription = "Edit",
+                contentDescription = Str.EDIT,
                 modifier = Modifier
                     .size(40.dp)
 
@@ -210,7 +211,7 @@ fun NoteCard(
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.delete_icon),
-                contentDescription = "Delete",
+                contentDescription = Str.DELETE,
                 modifier = Modifier
                     .size(40.dp)
 
@@ -291,7 +292,7 @@ fun NoteCard(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.noti_cansel),
-                    contentDescription = "addAlarm",
+                    contentDescription = Str.ADD_ALARM,
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(color = if (itemNote.alarmIsCheck) xRed else xSilver)
@@ -313,7 +314,7 @@ fun NoteCard(
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.noti_add),
-                    contentDescription = "addAlarm",
+                    contentDescription = Str.ADD_ALARM,
                     modifier = Modifier
                         .clip(CircleShape)
                         .background(color = xGreen)

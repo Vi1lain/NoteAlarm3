@@ -6,14 +6,15 @@ import android.content.Context
 import android.content.Intent
 import vi1ain.my.notealarm3.data.NoteEntity
 import vi1ain.my.notealarm3.data.NoteViewModel
+import vi1ain.my.notealarm3.data.Str
 
 class AlarmIntentManager(private var context: Context) : AlarmScheduler {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     override fun schedule(item: NoteEntity, noteViewModel: NoteViewModel) {
         val alarmIntent =
             Intent(context, MyReceiver::class.java).let { intent ->
-                intent.putExtra("key", item.title)
-                intent.putExtra("keyID", item.id)
+                intent.putExtra(Str.KEY_TITLE, item.title)
+                intent.putExtra(Str.KEY_ID, item.id)
                 PendingIntent.getBroadcast(
                     context,
                     item.id!!,
